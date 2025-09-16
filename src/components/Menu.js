@@ -10,7 +10,7 @@ function Menu() {
                 <li className={style.li}><a href='/' id={style.a}>팀빌딩</a></li>
                 <li className={style.li}><a href='/' id={style.a}>글작성</a></li>
             </ul>
-            <hr style={{marginLeft: 30, marginRight: 0}} />
+            <hr style={{marginLeft: 50, marginRight: 0}} />
         </div>
     )
 }
