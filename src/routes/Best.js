@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import InsightList from '../components/InsightList';
 
-function Home() {
+function Best() {
     const [insights, setInsights] = useState([]);
     useEffect(() => {
         getInsights();
@@ -11,7 +11,7 @@ function Home() {
         const { data } = await supabase
             .from("insight")
             .select()
-            .order("created_at", { ascending: false });
+            .order("like", { ascending: false });
         setInsights(data);
     }
     return (
@@ -19,4 +19,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default Best;
