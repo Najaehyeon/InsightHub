@@ -61,16 +61,7 @@
     color: white;
 }
 
-.userButton {
-    width: 40px;
-    height: 40px;
-    border-radius: 50px;
-    border: 1px solid #999;
-    background-color: #ff6600;
-    color: white;
-    font-size: medium;
-}
-
-.userButton:hover {
-    background-color: #ff7700;
+#login {
+    text-decoration: none;
+    color: black;
 }

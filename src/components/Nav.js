@@ -1,5 +1,6 @@
-import { FaSearch, FaUser } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import style from './Nav.module.css';
+import { Link } from 'react-router-dom';
 
 function Nav() {
     return (
@@ -12,7 +13,7 @@ function Nav() {
                         <FaSearch className={style.searchIcon} />
                     </button>
                 </form>
-                <button className={style.userButton}><FaUser/></button>
+                <Link to="/" id={style.login}>로그인</Link>
             </nav>
             <hr style={{margin: 0}}/>
         </header>
