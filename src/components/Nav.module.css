@@ -12,6 +12,11 @@
     background-color: #fff;
 }
 
+#logo {
+    text-decoration: none;
+    color: #ff6600;
+}
+
 .title {
     margin: 0;
     font-size: 24px;
