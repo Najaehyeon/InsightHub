@@ -4,6 +4,7 @@ import Menu from "./components/Menu";
 import Home from "./routes/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Best from "./routes/Best";
+import Sign from "./routes/Sign";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
           <Nav/>
           <Menu/>
         <Routes>
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/best/" element={<Best/>}></Route>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/best/" element={<Best/>}/>
+          <Route path="/sign/" element={<Sign/>}/>
         </Routes>
       </BrowserRouter>
     </div>
