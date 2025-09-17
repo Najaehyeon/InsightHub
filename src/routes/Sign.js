@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "../supabaseClient";
 import style from './Sign.module.css';
 import { useNavigate } from 'react-router-dom';
+import Modal from "../components/Modal";
 
 function Sign() {
   const [loginEmail, setLoginEmail] = useState('');
@@ -39,6 +40,7 @@ function Sign() {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
+    setModalMessage("본인 이메일이 맞습니까!?");
     setShowConfirmation(true);
   };
 
@@ -56,7 +58,6 @@ function Sign() {
     if (error) {
       alert(error.message);
     } else {
-      // 회원가입 성공 시 모달 표시
       setModalMessage("회원가입 성공!");
       setShowSuccessModal(true);
     }
@@ -166,34 +167,24 @@ function Sign() {
 
       {/* 이메일 확인 모달 */}
       {showConfirmation && (
-        <div className={style.modalOverlay}>
-          <div className={style.modalCard}>
-            <h3 className={style.confirmationTitle}>본인 이메일이 맞습니까?</h3>
-            <p className={style.confirmationEmail}>{signupEmail}</p>
-            <div className={style.buttonGroup}>
-              <button onClick={handleConfirmSignUp} className={style.confirmButton}>
-                예, 맞습니다.
-              </button>
-              <button onClick={handleCancelSignUp} className={style.cancelButton}>
-                아니오
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          handleConfirmSignUp={handleConfirmSignUp}
+          handleCancelSignUp={handleCancelSignUp}
+          modalMessage={modalMessage}
+          confirmText="예, 맞습니다."
+          cancel={true}
+        />
       )}
 
       {/* 성공 메시지 모달 */}
       {showSuccessModal && (
-        <div className={style.modalOverlay}>
-          <div className={style.modalCard}>
-            <p className={style.confirmationEmail}>{modalMessage}</p>
-            <div className={style.buttonGroup}>
-              <button onClick={handleGoToHome} className={style.confirmButton}>
-                홈으로
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          handleConfirmSignUp={handleGoToHome}
+          handleCancelSignUp={handleCancelSignUp}
+          modalMessage={modalMessage}
+          confirmText="홈으로"
+          cancel={false}
+        />
       )}
     </div>
   );
