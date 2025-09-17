@@ -1,18 +1,23 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
 import style from './Sign.module.css';
+import { useNavigate } from 'react-router-dom';
+import Modal from "../components/Modal";
 
 function Sign() {
-  // 로그인 폼을 위한 상태 변수
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
-
-  // 회원가입 폼을 위한 상태 변수
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  // 모달을 위한 변수
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const navigate = useNavigate();
 
   // 로그인 처리 함수
   const handleLogin = async (event) => {
@@ -24,7 +29,7 @@ function Sign() {
     if (error) {
       alert(error.message);
     } else {
-      alert("로그인 성공!");
+      navigate('/');
     }
   };
 
@@ -35,10 +40,11 @@ function Sign() {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
+    setModalMessage("본인 이메일이 맞습니까!?");
     setShowConfirmation(true);
   };
 
-  // 실제로 Supabase 회원가입을 실행하는 함수
+  // 회원가입 실행 함수
   const handleConfirmSignUp = async () => {
     const { error } = await supabase.auth.signUp({
       email: signupEmail,
@@ -52,7 +58,8 @@ function Sign() {
     if (error) {
       alert(error.message);
     } else {
-      alert("회원가입 성공!");
+      setModalMessage("회원가입 성공!");
+      setShowSuccessModal(true);
     }
     setShowConfirmation(false);
   };
@@ -62,9 +69,14 @@ function Sign() {
     setShowConfirmation(false);
   };
 
+  // 성공 모달에서 '홈으로' 버튼 클릭 시 호출되는 함수
+  const handleGoToHome = () => {
+    setShowSuccessModal(false);
+    navigate('/');
+  };
+
   return (
     <div className={style.container}>
-      {/* 기존 로그인/회원가입 폼 */}
       <h2 className={style.title}>로그인</h2>
       <form onSubmit={handleLogin} className={style.form}>
         <div className={style.inputGroup}>
@@ -101,7 +113,7 @@ function Sign() {
       <h2 className={style.title}>빠른 회원가입</h2>
       <form onSubmit={handlePreSignUp} className={style.form}>
         <div className={style.inputGroup}>
-          <label htmlFor="signup-email" className={style.label}>이메일 (주의: 이메일 오타나면 세상 무너짐)</label>
+          <label htmlFor="signup-email" className={style.label}>이메일 (주의: 이메일 오타 나면 세상 무너짐)</label>
           <input
             id="signup-email"
             type="email"
@@ -153,22 +165,26 @@ function Sign() {
         </button>
       </form>
 
-      {/* 모달 전체를 조건부 렌더링 */}
+      {/* 이메일 확인 모달 */}
       {showConfirmation && (
-        <div className={style.modalOverlay}>
-          <div className={style.modalCard}>
-            <h3 className={style.confirmationTitle}>본인 이메일이 맞습니까?</h3>
-            <p className={style.confirmationEmail}>{signupEmail}</p>
-            <div className={style.buttonGroup}>
-              <button onClick={handleConfirmSignUp} className={style.confirmButton}>
-                예, 맞습니다.
-              </button>
-              <button onClick={handleCancelSignUp} className={style.cancelButton}>
-                아니오
-              </button>
-            </div>
-          </div>
-        </div>
+        <Modal
+          handleConfirmSignUp={handleConfirmSignUp}
+          handleCancelSignUp={handleCancelSignUp}
+          modalMessage={modalMessage}
+          confirmText="예, 맞습니다."
+          cancel={true}
+        />
+      )}
+
+      {/* 성공 메시지 모달 */}
+      {showSuccessModal && (
+        <Modal
+          handleConfirmSignUp={handleGoToHome}
+          handleCancelSignUp={handleCancelSignUp}
+          modalMessage={modalMessage}
+          confirmText="홈으로"
+          cancel={false}
+        />
       )}
     </div>
   );

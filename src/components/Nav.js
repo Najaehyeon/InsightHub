@@ -1,8 +1,35 @@
 import { FaSearch } from 'react-icons/fa';
 import style from './Nav.module.css';
 import { Link } from 'react-router-dom';
+import { supabase } from "../supabaseClient";
+import { useState, useEffect } from 'react';
 
 function Nav() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const getSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setIsLoggedIn(session !== null);
+        };
+        getSession();
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+            setIsLoggedIn(session !== null);
+        });
+        return () => {
+            authListener.subscription.unsubscribe();
+        };
+    }, []);
+
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            alert('로그아웃 실패: ' + error.message);
+        } else {
+            alert('로그아웃 되었습니다.');
+        }
+    };
+
     return (
         <header className={style.header}>
             <nav className={style.nav}>
@@ -13,9 +40,15 @@ function Nav() {
                         <FaSearch className={style.searchIcon} />
                     </button>
                 </form>
-                <Link to="/sign" id={style.login}>로그인</Link>
+                {isLoggedIn ? (
+                    <button onClick={handleLogout} className={style.logoutButton}>
+                        로그아웃
+                    </button>
+                ) : (
+                    <Link to="/sign" id={style.login}>로그인</Link>
+                )}
             </nav>
-            <hr style={{margin: 0}}/>
+            <hr style={{ margin: 0 }} />
         </header>
     );
 }
