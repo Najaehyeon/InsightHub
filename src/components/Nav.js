@@ -3,6 +3,7 @@ import style from './Nav.module.css';
 import { Link } from 'react-router-dom';
 import { supabase } from "../supabaseClient";
 import { useState, useEffect } from 'react';
+import TextType from './TextType';
 
 function Nav() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -33,7 +34,16 @@ function Nav() {
     return (
         <header className={style.header}>
             <nav className={style.nav}>
-                <h2 className={style.title}><Link to="/" id={style.logo}>Insight Hub</Link></h2>
+                <h2 className={style.title}>
+                    <Link to="/" id={style.logo}>
+                        <TextType 
+                            text={["I--HELIX"]}
+                            typingSpeed={75}
+                            showCursor={false}
+                            textColors={"#ff6600"}
+                        />
+                    </Link>
+                </h2>
                 <form className={style.searchContainer}>
                     <input className={style.searchInput} type="text" placeholder="Search..." />
                     <button className={style.searchButton} aria-label="Search">
