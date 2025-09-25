@@ -1,0 +1,73 @@
+.container {
+    margin: 80px 0 0 200px;
+}
+
+.inputComment {
+    display: block;    
+    width: 80%;
+    height: 100px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.inputComment:focus {
+  outline: none;
+  border-color: var(--brand-color);
+}
+
+.button {
+  width: 20%;
+  padding: 12px;
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button:hover {
+  background-color: #ff8800;
+}
+
+/* Updated Minimalist Comment Section Styles */
+.commentSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentItem {
+  padding: 16px 0;
+  border-bottom: 1px solid #eee; /* Adds a subtle separator line */
+}
+
+.commentItem:last-child {
+  border-bottom: none; /* Removes the border from the last item */
+}
+
+.commentContent {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.commentMeta {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  justify-content: space-between;
+}
+
+.commentDate {
+  font-style: italic;
+}
